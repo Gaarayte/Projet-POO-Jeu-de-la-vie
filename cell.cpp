@@ -3,7 +3,7 @@
 
 Cell::Cell(int x, int y) : alive(false) {}
 
-bool Cell::isAlive() {
+bool Cell::isAlive() const {
     return alive;
 }
 

@@ -1,7 +1,4 @@
-#ifndef CELL_H
-#define CELL_H
-
-using namespace std;
+#pragma once
 
 class Cell {
     private :
@@ -13,6 +10,4 @@ class Cell {
         bool isAlive();
 
         void setAlive(bool state);
-
 };
-#endif
