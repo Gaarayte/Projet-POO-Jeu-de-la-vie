@@ -7,7 +7,7 @@ class Cell {
     public :
         Cell(int x, int y) : alive(false) {}
 
-        bool isAlive();
+        bool isAlive() const;
 
         void setAlive(bool state);
 };
