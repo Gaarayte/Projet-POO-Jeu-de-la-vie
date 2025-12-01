@@ -1,9 +1,10 @@
-#include "Rules.h
+#include "rules.h"
 
-Rules::Rules (bool state) : Cell(state) {}
+
+Rules::Rules (bool state) : Cell() {}
 
 bool Rules::applyRules(const Cell& cell, int aliveNeighbors) {
-    if (cell.getState()) {
+    if (cell.isAlive()) {
         return (aliveNeighbors == 2 || aliveNeighbors == 3);
     } else {
         return (aliveNeighbors == 3);
