@@ -1,0 +1,291 @@
+@startuml
+
+title Diagramme de Classes - Jeu de la Vie (POO Complet)
+
+
+
+skinparam linetype ortho
+
+skinparam monochrome false
+
+
+
+package "1. Modèle (Logique Métier)" <<Rectangle>> {
+
+
+
+    abstract class CellState {
+
+        + name: string
+
+        --
+
+        + isAlive(): bool <<abstract>>
+
+        + handleEvolution(cell: Cell, liveNeighbors: int, rule: RuleStrategy): CellState
+
+    }
+
+
+
+    class AliveState {
+
+        + AliveState()
+
+        + isAlive(): bool
+
+    }
+
+
+
+    class DeadState {
+
+        + DeadState()
+
+        + isAlive(): bool
+
+    }
+
+
+
+    ' Héritage clair
+
+    CellState <|-- AliveState
+
+    CellState <|-- DeadState
+
+
+
+    class Cell {
+
+        - x: int
+
+        - y: int
+
+        - currentState: CellState*
+
+        --
+
+        + Cell(x: int, y: int, initialState: CellState*)
+
+        + setState(newState: CellState*): void
+
+        + getState(): CellState*
+
+        + evolve(liveNeighbors: int, rule: RuleStrategy): CellState*
+
+        + getNextState(): CellState*
+
+    }
+
+
+
+    class Grid {
+
+        - cells: Cell**
+
+        - width: int
+
+        - height: int
+
+        - nextStateCells: CellState**
+
+        --
+
+        + Grid(width: int, height: int)
+
+        + initialize(parser: InputParser): void
+
+        + calculateLiveNeighbors(x: int, y: int): int
+
+        + evolve(rule: RuleStrategy): bool
+
+        + isStable(): bool
+
+        + applyNextState(): void
+
+        + getCell(x: int, y: int): Cell*
+
+        + getCells(): Cell**
+
+    }
+
+
+
+    Cell "1" *-- "1" CellState : détient
+
+    Grid "1" *-- "*" Cell : contient
+
+
+
+    note top of Grid
+
+        Implémente le calcul des voisins,
+
+        possibilité d'extension : grille torique.
+
+    end note
+
+}
+
+
+
+package "2. Stratégie de Règles" <<Rectangle>> {
+
+
+
+    abstract class RuleStrategy {
+
+        + RuleStrategy(name: string)
+
+        --
+
+        + getNextState(currentState: CellState, liveNeighbors: int): CellState* <<abstract>>
+
+    }
+
+
+
+    class Rules {
+
+        + Rules()
+
+        + getNextState(currentState: CellState, liveNeighbors: int): CellState*
+
+    }
+
+
+
+    ' Rules remplace ConwayRule + ObstacleRule
+
+    RuleStrategy <|-- Rules
+
+
+
+    Cell "1" o-- "1" RuleStrategy : utilise
+
+}
+
+
+
+package "3. Contrôleur & Utilitaires" <<Rectangle>> {
+
+
+
+    class GameOfLife {
+
+        - grid: Grid
+
+        - rule: RuleStrategy
+
+        - view: IView*
+
+        - maxIterations: int
+
+        --
+
+        + GameOfLife(grid: Grid, rule: RuleStrategy, view: IView*)
+
+        + runSimulation(): void
+
+        + setView(view: IView*): void
+
+    }
+
+
+
+    class InputParser {
+
+        + parse(filePath: string): Grid
+
+    }
+
+
+
+    class UnitTests {
+
+        + testEvolution(initialGrid: string, iterations: int, expectedGrid: string): bool
+
+    }
+
+
+
+    class GameLogger {
+
+        + logState(grid: Grid, iteration: int): void
+
+    }
+
+
+
+    GameOfLife "1" *-- "1" Grid : gère
+
+    GameOfLife "1" *-- "1" RuleStrategy : utilise
+
+}
+
+
+
+package "4. Vue (Séparation I/O)" <<Rectangle>> {
+
+
+
+    interface IView {
+
+        + initialize(width: int, height: int): void <<abstract>>
+
+        + render(grid: Grid): void <<abstract>>
+
+        + handleEvents(): bool <<abstract>>
+
+    }
+
+
+
+    class ConsoleView {
+
+        + render(grid: Grid): void
+
+        + handleEvents(): bool
+
+        - logger: GameLogger
+
+    }
+
+
+
+    class SFMLView {
+
+        + render(grid: Grid): void
+
+        + handleEvents(): bool
+
+        - window: sf::RenderWindow
+
+        - cellRenderer: SFMLCellRenderer
+
+    }
+
+
+
+    class SFMLCellRenderer {
+
+        + drawCell(x: int, y: int, state: CellState*): void
+
+    }
+
+
+
+    GameOfLife "1" o-- "1" IView : utilise
+
+    ConsoleView .right.> GameLogger : utilise
+
+    SFMLView "1" o-- "1" SFMLCellRenderer : contient
+
+}
+
+
+
+InputParser .right.> Grid : crée/initialise
+
+@enduml
