@@ -7,4 +7,7 @@ class Rules : public Cell {
         Rules(bool state = false);
         bool applyRules(const Cell& cell, int aliveNeighbors);
 
+        void setState(bool state) {};
+        void setNextState(bool state) {
+    };
 };

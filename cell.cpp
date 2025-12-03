@@ -1,12 +1,35 @@
 #include "cell.h"
-#include <iostream>
+#include "aliveState.h"
+#include "deadState.h"
+#include "rules.h"
 
-Cell::Cell(int x, int y) : alive(false) {}
-
-bool Cell::isAlive() const {
-    return alive;
+Cell::Cell(int x, int y, int initialState) : x(x), y(y), currentState(nullptr) {
+    if (initialState == 1) {
+        currentState = AliveState::getInstance();
+    } else {
+        currentState = DeadState::getInstance();
+    }
 }
 
-void Cell::setAlive(bool state) {
-    alive = state;
+void Cell::setState(CellState* newState) {
+    if(newState) {
+        currentState = newState;
+    }
 }
+
+CellState* Cell::getState() const {
+    return currentState;
+}
+
+CellState* Cell::evolve(int liveNeighbors, Rules* rule) {
+    return currentState->handleEvolution(this, liveNeighbors, rule);
+}
+
+int Cell::getX() const {
+    return x;
+}
+
+int Cell::getY() const {
+    return y;
+}
+
