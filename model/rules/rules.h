@@ -1,6 +1,6 @@
 #pragma once
 
-#include "cell.h"
+#include "../cell.h"
 
 class Rules : public Cell {
     public:

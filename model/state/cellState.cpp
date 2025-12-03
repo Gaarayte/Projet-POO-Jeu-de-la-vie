@@ -1,4 +1,4 @@
-#include "CellState.h"
+#include "cellState.h"
 
 using namespace std;
 

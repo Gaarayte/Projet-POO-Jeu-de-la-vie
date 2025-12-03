@@ -128,8 +128,6 @@ package "1. Modèle (Logique Métier)" <<Rectangle>> {
 
 }
 
-
-
 package "2. Stratégie de Règles" <<Rectangle>> {
 
 

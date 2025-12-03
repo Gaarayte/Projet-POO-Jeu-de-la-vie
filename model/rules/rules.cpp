@@ -1,6 +1,5 @@
 #include "rules.h"
 
-
 Rules::Rules (bool state) : Cell() {}
 
 bool Rules::applyRules(const Cell& cell, int aliveNeighbors) {

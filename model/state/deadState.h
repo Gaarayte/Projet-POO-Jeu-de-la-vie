@@ -1,6 +1,5 @@
 #pragma once
-
-#include "CellState.h"
+#include "cellState.h"
 
 
 class DeadState : public CellState {
