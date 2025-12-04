@@ -1,5 +1,6 @@
-@startuml
-title Diagramme de Classes - Jeu de la Vie (POO Optimal - 1 Règle, États Polymorphiques)
+@startuml Conway's Game of Life - Class Diagram
+
+title Diagramme de Classes - Jeu de la Vie (POO Optimal - Final)
 
 skinparam linetype ortho
 skinparam monochrome false
@@ -24,7 +25,7 @@ package "1. Modèle (Logique Métier - State Pattern)" <<Rectangle>> {
         + isAlive(): bool
         + getNextState(liveNeighbors: int, rule: RuleStrategy): CellState*
     }
-
+    
     class FixedState {
         + FixedState(isAlive: bool) // Peut être un obstacle vivant ou mort (fixe)
         + isAlive(): bool
@@ -80,13 +81,13 @@ package "2. Stratégie de Règles (Strategy Pattern)" <<Rectangle>> {
         + checkBirth(liveNeighbors: int): bool {abstract}
     }
 
-    class ConwayRule {
-        + ConwayRule()
+    class Rule {
+        + Rule()
         + checkSurvival(liveNeighbors: int): bool
         + checkBirth(liveNeighbors: int): bool
     }
 
-    RuleStrategy <|-- ConwayRule
+    RuleStrategy <|-- Rule
     CellState "1" o-- "1" RuleStrategy : utilise/évalue
 }
 
@@ -110,6 +111,9 @@ package "3. Contrôleur & Utilitaires" <<Rectangle>> {
 
     class UnitTests {
         + testEvolution(initialGrid: string, iterations: int, expectedGrid: string): bool
+        + testInputParser(filePath: string) const: bool
+        + testNeighborCalculation() const: bool
+        + runAllTests() const: void
     }
 
     class GameLogger {
@@ -144,6 +148,10 @@ package "4. Vue (Séparation I/O)" <<Rectangle>> {
     class SFMLCellRenderer {
         + drawCell(x: int, y: int, state: CellState*): void
     }
+    
+    ' Ajout explicite des flèches d'héritage
+    IView <|-- ConsoleView
+    IView <|-- SFMLView
 
     GameOfLife "1" o-- "1" IView : utilise (polymorphisme)
     ConsoleView .right.> GameLogger : utilise
@@ -152,4 +160,5 @@ package "4. Vue (Séparation I/O)" <<Rectangle>> {
 }
 
 InputParser .right.> Grid : crée/initialise
+
 @enduml
