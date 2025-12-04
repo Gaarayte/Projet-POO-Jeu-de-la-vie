@@ -30,5 +30,3 @@ public:
     std::shared_ptr<Cell> getCell(int x, int y) const;
     const std::vector<std::vector<std::shared_ptr<Cell>>>& getCells() const { return cells; }
 };
-
-};

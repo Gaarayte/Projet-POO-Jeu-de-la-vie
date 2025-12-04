@@ -20,7 +20,7 @@ void initializeGrid() {
 
 void renderGrid(sf::RenderWindow &window) {
     int x, y;
-    
+
     window.clear();
     sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
     for (x = 0; x < gridWidth; ++x) {
@@ -36,7 +36,7 @@ void renderGrid(sf::RenderWindow &window) {
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-    
+
     initializeGrid();
 
     while (window.isOpen()) {

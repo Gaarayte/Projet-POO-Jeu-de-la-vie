@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I. -Imodel -Imodel/rules -Imodel/state -Iview -Icontroller
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system -lsfml-main
 
 # Source files (automatic detection)
 SRC = $(wildcard *.cpp) \

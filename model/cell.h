@@ -1,5 +1,5 @@
 #pragma once
-#include "cellState.h"
+#include "state/cellState.h"
 
 class Cell {
     private :

@@ -6,13 +6,9 @@
 
 class Rules : public RuleStrategy {
 public:
-    Rules() : RuleStrategy("Jeu de la vie") {}
+    Rules();
 
-    bool checkSurvival(int liveNeighbors) const override {
-        return liveNeighbors == 2 || liveNeighbors == 3;
-    }
+    bool checkSurvival(int liveNeighbors) const override;
 
-    bool checkBirth(int liveNeighbors) const override {
-        return liveNeighbors == 3;
-    }
+    bool checkBirth(int liveNeighbors) const override;
 };
