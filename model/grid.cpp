@@ -72,8 +72,6 @@ bool Grid::evolve(const RuleStrategy& rule) {
     return true; 
 }
 
-bool Grid::isStable() const { return false; }
-
 void Grid::applyNextState() {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
