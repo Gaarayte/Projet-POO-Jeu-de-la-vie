@@ -1,11 +1,14 @@
 #pragma once
-#include "CellState.h"
+#include "cellState.h"
 
-class AliveState : public CellState {
+
+class DeadState : public CellState {
     private:
-        AliveState();
+        DeadState();
+
     public:
         CellState* handleEvolution(Cell* currentCell, int liveNeighbors, RuleStrategy* rule) override;
-        static AliveState* getInstance();
+        
+        static DeadState* getInstance();
 
 };
