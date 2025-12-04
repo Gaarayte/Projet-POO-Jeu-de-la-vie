@@ -1,4 +1,4 @@
-#include "rules.h"
+#include "ruleStrategy.h"
 
 
 Rules::Rules (bool state) : Cell() {}

@@ -1,7 +1,7 @@
 #include "cell.h"
 #include "aliveState.h"
 #include "deadState.h"
-#include "rules.h"
+#include "ruleStrategy.h"
 
 Cell::Cell(int x, int y, int initialState) : x(x), y(y), currentState(nullptr) {
     if (initialState == 1) {
@@ -21,7 +21,7 @@ CellState* Cell::getState() const {
     return currentState;
 }
 
-CellState* Cell::evolve(int liveNeighbors, Rules* rule) {
+CellState* Cell::evolve(int liveNeighbors, RuleStrategy* rule) {
     return currentState->handleEvolution(this, liveNeighbors, rule);
 }
 

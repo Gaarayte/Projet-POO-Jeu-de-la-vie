@@ -8,7 +8,7 @@ class DeadState : public CellState {
         DeadState();
 
     public:
-        CellState* handleEvolution(Cell* currentCell, int liveNeighbors, Rules* rule) override;
+        CellState* handleEvolution(Cell* currentCell, int liveNeighbors, RuleStrategy* rule) override;
         
         static DeadState* getInstance();
 

@@ -18,7 +18,7 @@ class Cell {
 
         // Accessors 
         CellState* getState() const;
-        CellState* evolve(int liveNeighbors, Rules* rule);
+        CellState* evolve(int liveNeighbors, RuleStrategy* rule);
         int getX() const;
         int getY() const;
 

@@ -16,7 +16,7 @@ class CellState : public Cell {
         CellState(const string& name, bool isAlive);
 
         virtual ~CellState() = default;
-        virtual CellState* handleEvolution(Cell* currentCell, int liveNeighbors, Rules* rule) = 0;
+        virtual CellState* handleEvolution(Cell* currentCell, int liveNeighbors, RuleStrategy* rule) = 0;
 
         bool isAlive() const {};
 

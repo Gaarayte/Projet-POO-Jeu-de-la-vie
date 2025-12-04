@@ -1,5 +1,5 @@
 #include "aliveState.h"
-#include "rules.h"
+#include "ruleStrategy.h"
 #include <iostream>
 
 AliveState::AliveState() : CellState("Alive", true) {}
@@ -11,7 +11,7 @@ AliveState* AliveState::getInstance() {
     return &instance;
 }
 
-CellState* AliveState::handleEvolution(Cell* currentCell, int liveNeighbors, Rules* rule) {
+CellState* AliveState::handleEvolution(Cell* currentCell, int liveNeighbors, RuleStrategy* rule) {
     return rule->getNextState(this, liveNeighbors);
 }
 
