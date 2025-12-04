@@ -14,7 +14,7 @@
 using namespace std;
 
 
-bool GameOfLife::initialize(const InputParser& ) {
+bool GameOfLife::initialize(const InputParser& parser) {
     _maxIterations = parser.getMaxIterations();
     _currentIteration = 0;
     
@@ -25,17 +25,17 @@ bool GameOfLife::initialize(const InputParser& ) {
     _grid = make_unique<Grid>(width, height);
 
     string ruleName = parser.getRuleName();
-    _ruleStrategy = make_unique<ConwayRule>(ruleName); 
+    _ruleStrategy = make_unique<Rules>(ruleName); 
 
     const auto& initialData = parser.getInitialGridData();
 
-    if (initialData.size() != height || (height > 0 && initialData[0].size() != width)) {
+    if (initialData.size() != (size_t)height || (height > 0 && initialData[0].size() != (size_t)width)) {
          cerr << "Erreur: Dimensions de la grille lues sont incohérentes." << endl;
          return false;
     }
 
-    shared_ptr<CellState> aliveState = AliveState::getInstance();
-    shared_ptr<CellState> deadState = DeadState::getInstance();
+    shared_ptr<CellState> aliveState = shared_ptr<CellState>(AliveState::getInstance());
+    shared_ptr<CellState> deadState = shared_ptr<CellState>(DeadState::getInstance());
     
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
@@ -73,11 +73,11 @@ void GameOfLife::runSimulation() {
     }
 
     cout << "Démarrage de la simulation (" << _grid->getWidth() << "x" << _grid->getHeight() 
-              << ", max " << _maxIterations << " itérations, règle: " << _ruleStrategy->getName() << ")." << endl;
+              << ", max " << _maxIterations << " itérations)." << endl;
 
     for (_currentIteration = 0; _currentIteration < _maxIterations; ++_currentIteration) {
 
-        _grid->updateStateNMinus2(); 
+        _grid->updateStateNMin2(); 
 
         _view->renderGrid(*_grid);
         _view->updateDisplay(); 
@@ -97,6 +97,8 @@ void GameOfLife::runSimulation() {
             cout << "Simulation arrêtée par l'utilisateur à l'itération " << _currentIteration + 1 << "." << endl;
             break;
         }
+
+        _grid->applyNextState();
     }
 
     _view->renderGrid(*_grid);

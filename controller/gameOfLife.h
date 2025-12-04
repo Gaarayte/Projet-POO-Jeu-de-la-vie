@@ -7,7 +7,7 @@
 #include "grid.h"
 #include "gameLogger.h"
 #include "inputParser.h"
-#include "../view/IView.h" //Erreur car pas encore implémenté
+#include "../view/iView.h"
 
 using namespace std;
 

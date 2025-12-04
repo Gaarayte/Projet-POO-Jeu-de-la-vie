@@ -122,6 +122,15 @@ bool Grid::isStable() const {
     return false;
 }
 
+void Grid::setCell(int x, int y, shared_ptr<Cell> cell) {
+    if (x >= 0 && x < width && y >= 0 && y < height) {
+        cells[y][x] = cell;
+    } 
+    else {
+        cerr << "Avertissement: Tentative de définir une cellule en dehors des limites de la grille (" << x << ", " << y << ")." << endl;
+    }
+}
+
 
 shared_ptr<Cell> Grid::getCell(int x, int y) const {
     if (x >= 0 && x < width && y >= 0 && y < height) {

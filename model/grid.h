@@ -31,9 +31,9 @@ public:
     bool isStable() const;
     void applyNextState();
     void updateStateNMin2();
+    void setCell(int x, int y, shared_ptr<Cell> cell);
 
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     shared_ptr<Cell> getCell(int x, int y) const;
-    const vector<vector<shared_ptr<Cell>>>& getCells() const { return cells; }
-};
+    const vector<vector<shared_ptr<Cell>>>& getCells() const { return cells; }};
