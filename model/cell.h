@@ -1,5 +1,9 @@
 #pragma once
+#include <memory>
+
 #include "state/cellState.h"
+
+using namespace std;
 
 class Cell {
     private :
@@ -9,7 +13,7 @@ class Cell {
         CellState* currentState;
     
     public :
-        Cell(int x, int y, int initialState) ;
+        Cell(int x, int y, shared_ptr<CellState> initialState);
         ~Cell() = default;
 
         // Method

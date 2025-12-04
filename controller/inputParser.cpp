@@ -1,4 +1,4 @@
-#include "controller/inputParser.h"
+#include "../controller/inputParser.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>

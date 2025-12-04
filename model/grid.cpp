@@ -19,7 +19,8 @@ Grid::Grid(int w, int h) :
     width(w), 
     height(h),
     cells(h, vector<shared_ptr<Cell>>(w)),
-    nextStateCells(h, vector<shared_ptr<CellState>>(w))
+    nextStateCells(h, vector<shared_ptr<CellState>>(w)),
+    _isChanged(true)
 {
     if (w <= 0 || h <= 0) {
         throw invalid_argument("Grid dimensions must be positive.");
@@ -33,7 +34,7 @@ Grid::Grid(int w, int h) :
     }
 }
 
-void Grid::initialize(const InputParser& parser) {
+void Grid::initialize(const InputParser&) {
     cout << "Initialisation de la grille." << endl;
 }
 
@@ -73,9 +74,18 @@ bool Grid::evolve(const RuleStrategy& rule) {
 }
 
 void Grid::applyNextState() {
+_isChanged = false; // Réinitialise le flag au début de l'application
+    
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            cells[y][x]->setState(nextStateCells[y][x].get());
+            shared_ptr<Cell> cell = cells[y][x];
+            shared_ptr<CellState> nextState = nextStateCells[y][x];
+
+            
+            if (cell->getState()->isAlive() != nextState->isAlive()) { 
+                cell->setState(nextState.get()); 
+                _isChanged = true; // Marque la grille comme modifiée
+            }
         }
     }
 }

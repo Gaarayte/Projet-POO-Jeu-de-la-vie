@@ -5,8 +5,6 @@
 
 using namespace std;
 
-RuleStrategy::RuleStrategy(const string& n) : name(n) {}
-
 shared_ptr<CellState> RuleStrategy::handleEvolution(shared_ptr<CellState> currentState, int liveNeighbors) const{
     // If the cell is ALIVE
     if (currentState->isAlive()) {

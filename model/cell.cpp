@@ -3,9 +3,9 @@
 #include "deadState.h"
 #include "ruleStrategy.h"
 
-Cell::Cell(int x, int y, int initialState) : x(x), y(y), currentState(nullptr) {
-    if (initialState == 1) {
-        currentState = AliveState::getInstance();
+Cell::Cell(int x, int y, shared_ptr<CellState> initialState) : x(x), y(y), currentState(nullptr) {
+    if (initialState) {
+        currentState = initialState.get();
     } else {
         currentState = DeadState::getInstance();
     }

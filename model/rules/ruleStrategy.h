@@ -10,7 +10,7 @@ class CellState;
 class RuleStrategy {
 public:
     const string name;
-    RuleStrategy(const string& n) : name(n) {} //Pourquoi on a besoin de name ici ??
+    RuleStrategy(const string& n) : name(n) {}
     virtual ~RuleStrategy() = default;
     
     virtual bool checkSurvival(int liveNeighbors) const = 0;

@@ -18,14 +18,15 @@ private:
     int height;
     vector<vector<shared_ptr<Cell>>> cells;
     vector<vector<shared_ptr<CellState>>> nextStateCells;
+    bool _isChanged;
 
 public:
     Grid(int w, int h);
 
-    void initialize(const InputParser& parser);
+    void initialize(const InputParser&);
     int calculateLiveNeighbors(int x, int y) const;
     bool evolve(const RuleStrategy& rule);
-    bool isStable() const { return false; }
+    bool isStable() const { return !_isChanged; }
     void applyNextState();
 
     int getWidth() const { return width; }
