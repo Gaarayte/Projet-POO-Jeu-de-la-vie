@@ -22,7 +22,7 @@ CellState* Cell::getState() const {
 }
 
 CellState* Cell::evolve(int liveNeighbors, RuleStrategy* rule) {
-    return currentState->handleEvolution(this, liveNeighbors, rule);
+    return currentState->handleEvolution(liveNeighbors, rule);
 }
 
 int Cell::getX() const {
