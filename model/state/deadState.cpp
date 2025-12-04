@@ -12,7 +12,7 @@ DeadState* DeadState::getInstance() {
     return &instance;
 }
 
-CellState* DeadState::handleEvolution(Cell* currentCell, int liveNeighbors, RuleStrategy* rule) {
+CellState* DeadState::handleEvolution(int liveNeighbors, RuleStrategy* rule) {
     if (rule->checkBirth(liveNeighbors)) {
         return AliveState::getInstance();
     } else {

@@ -12,8 +12,7 @@ AliveState* AliveState::getInstance() {
     return &instance;
 }
 
-CellState* AliveState::handleEvolution(Cell* currentCell, int liveNeighbors, RuleStrategy* rule) {
-    (void)currentCell; // Unused parameter
+CellState* AliveState::handleEvolution(int liveNeighbors, RuleStrategy* rule) {
     if (rule->checkSurvival(liveNeighbors)) {
         return AliveState::getInstance();
     } else {
