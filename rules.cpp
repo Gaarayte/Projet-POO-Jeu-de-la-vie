@@ -1,12 +1,12 @@
-#include "ruleStrategy.h"
+#include "rules.h"
+#include <iostream>
 
+Rules::Rules() : RuleStrategy("Jeu de la vie") {}
 
-Rules::Rules (bool state) : Cell() {}
+bool Rules::checkSurvival(int liveNeighbors) const {
+        return liveNeighbors == 2 || liveNeighbors == 3;
+};
 
-bool Rules::applyRules(const Cell& cell, int aliveNeighbors) {
-    if (cell.isAlive()) {
-        return (aliveNeighbors == 2 || aliveNeighbors == 3);
-    } else {
-        return (aliveNeighbors == 3);
-    }
+bool Rules::checkBirth(int liveNeighbors) const {
+        return liveNeighbors == 3;
 };
