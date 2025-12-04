@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <vector> 
 
 #include "grid.h"
 #include "cell.h"
@@ -89,6 +90,38 @@ _isChanged = false; // Réinitialise le flag au début de l'application
         }
     }
 }
+
+vector<int> Grid::getCurrentGridStateVector() const {
+    vector<int> state;
+    state.reserve(width * height);
+    
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            // 1 pour vivant, 0 pour mort
+            state.push_back(cells[y][x]->getState()->isAlive() ? 1 : 0);
+        }
+    }
+    return state;
+}
+
+void Grid::updateStateNMin2() {
+    _stateNMin2 = getCurrentGridStateVector();
+}
+
+bool Grid::isStable() const {
+    if (!_isChanged){
+        return true;
+    }
+    if (_stateNMin2.empty()) {
+        return false; 
+    }
+    vector<int> stateN = getCurrentGridStateVector();
+    if (stateN == _stateNMin2) {
+        return true; 
+    }
+    return false;
+}
+
 
 shared_ptr<Cell> Grid::getCell(int x, int y) const {
     if (x >= 0 && x < width && y >= 0 && y < height) {

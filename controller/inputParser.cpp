@@ -28,11 +28,13 @@ bool InputParser::readFile(const string& fileName) {
                 cerr << "Erreur: Paramètres de grille invalides." << endl;
                 return false;
             }
-        } else {
+        } 
+        else {
             cerr << "Erreur: Format de la ligne de paramètres invalide." << endl;
             return false;
         }
-    } else {
+    } 
+    else {
         cerr << "Erreur: Fichier vide ou illisible." << endl;
         return false;
     }
@@ -53,7 +55,8 @@ bool InputParser::readFile(const string& fileName) {
         for (int x = 0; x < _gridWidth; ++x) {
             if (ss_grid >> state) {
                 row.push_back(state);
-            } else {
+            } 
+            else {
                 cerr << "Erreur: Nombre de colonnes insuffisant (attendu " << _gridWidth << " à la ligne " << y + 1 << ")." << endl;
                 return false;
             }
