@@ -1,37 +1,40 @@
-#include "grid.h"
 #include <iostream>
 #include <stdexcept>
+
+#include "grid.h"
 #include "cell.h"
 #include "state/cellState.h" 
 #include "ruleStrategy.h" 
 #include "state/deadState.h"
 #include "../controller/inputParser.h"
 
-std::shared_ptr<CellState> getDeadState() {
-    static auto deadState = std::make_shared<DeadState>(); 
+using namespace std;
+
+shared_ptr<CellState> getDeadState() {
+    static auto deadState = make_shared<DeadState>(); 
     return deadState;
 }
 
 Grid::Grid(int w, int h) : 
     width(w), 
     height(h),
-    cells(h, std::vector<std::shared_ptr<Cell>>(w)),
-    nextStateCells(h, std::vector<std::shared_ptr<CellState>>(w))
+    cells(h, vector<shared_ptr<Cell>>(w)),
+    nextStateCells(h, vector<shared_ptr<CellState>>(w))
 {
     if (w <= 0 || h <= 0) {
-        throw std::invalid_argument("Grid dimensions must be positive.");
+        throw invalid_argument("Grid dimensions must be positive.");
     }
 
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            cells[y][x] = std::make_shared<Cell>(x, y, getDeadState()); 
+            cells[y][x] = make_shared<Cell>(x, y, getDeadState()); 
             nextStateCells[y][x] = getDeadState();
         }
     }
 }
 
 void Grid::initialize(const InputParser& parser) {
-    std::cout << "Initialisation de la grille." << std::endl;
+    cout << "Initialisation de la grille." << endl;
 }
 
 int Grid::calculateLiveNeighbors(int x, int y) const {
@@ -59,8 +62,8 @@ bool Grid::evolve(const RuleStrategy& rule) {
         for (int x = 0; x < width; ++x) {
             int aliveNeighbors = calculateLiveNeighbors(x, y);
             
-            std::shared_ptr<CellState> currentState = std::shared_ptr<CellState>(cells[y][x]->getState());
-            std::shared_ptr<CellState> nextState = rule.handleEvolution(currentState, aliveNeighbors);
+            shared_ptr<CellState> currentState = shared_ptr<CellState>(cells[y][x]->getState());
+            shared_ptr<CellState> nextState = rule.handleEvolution(currentState, aliveNeighbors); //completer rulestrategy..
 
             nextStateCells[y][x] = nextState;
         }
@@ -74,12 +77,12 @@ bool Grid::isStable() const { return false; }
 void Grid::applyNextState() {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            cells[y][x]->setState(nextStateCells[y][x]);
+            cells[y][x]->setState(nextStateCells[y][x].get());
         }
     }
 }
 
-std::shared_ptr<Cell> Grid::getCell(int x, int y) const {
+shared_ptr<Cell> Grid::getCell(int x, int y) const {
     if (x >= 0 && x < width && y >= 0 && y < height) {
         return cells[y][x];
     }
