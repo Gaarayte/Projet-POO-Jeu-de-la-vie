@@ -1,13 +1,18 @@
 #pragma once
 
+#include "ruleStrategy.h"
 #include "../cell.h"
+#include <iostream>
 
-class Rules : public Cell {
-    public:
-        Rules(bool state = false);
-        bool applyRules(const Cell& cell, int aliveNeighbors);
+class Rules : public RuleStrategy {
+public:
+    Rules() : RuleStrategy("Jeu de la vie") {}
 
-        void setState(bool state) {};
-        void setNextState(bool state) {
-    };
+    bool checkSurvival(int liveNeighbors) const override {
+        return liveNeighbors == 2 || liveNeighbors == 3;
+    }
+
+    bool checkBirth(int liveNeighbors) const override {
+        return liveNeighbors == 3;
+    }
 };
