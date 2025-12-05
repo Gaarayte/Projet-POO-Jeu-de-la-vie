@@ -1,0 +1,52 @@
+@startuml GameOfLife_ActivityDiagram
+title Diagramme d'Activité : Boucle de Simulation
+
+start
+
+partition "Initialisation" {
+  :Lire et parser le fichier de configuration;
+  :Initialiser les composants (GameOfLife, Grid, Vue);
+  if (Configuration valide ?) then (Oui)
+    :Initialiser la Vue et le GameLogger;
+  else (Non)
+    :Afficher l'erreur de configuration;
+    stop
+  endif
+}
+
+-- Boucle Principale --
+
+label loopStart
+
+while (Toujours vrai) is (Boucle)
+  partition "Affichage" {
+    :IView::renderGrid(Grid);
+    :IView::updateDisplay();
+    :GameLogger::logState(Grid);
+  }
+
+  partition "Étape d'Évolution (N -> N+1)" {
+    :Grid::evolve(RuleStrategy) (Déterminer nextState);
+    :Grid::applyNextState() (Appliquer N+1);
+  }
+
+  :Attendre (delayMs);
+
+  partition "Gestion des Événements" {
+    :continueEvents = IView::handleEvents();
+  }
+
+  if (!continueEvents) then (Arrêt Utilisateur)
+    break
+  endif
+
+  :Incrémenter l'itération;
+
+endwhile (Arrêt)
+
+partition "Clôture" {
+  :GameLogger::closeLogger();
+  end
+}
+
+@enduml
