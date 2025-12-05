@@ -13,7 +13,7 @@ SFMLView::~SFMLView() {
 
 void SFMLView::initialize(int width, int height) {
     window.create(sf::VideoMode(width * cellSize, height * cellSize), "Game of Life");
-    window.setFramerateLimit(2); 
+    window.setFramerateLimit(60); 
 }
 
 void SFMLView::renderGrid(const Grid& grid, int iteration) {

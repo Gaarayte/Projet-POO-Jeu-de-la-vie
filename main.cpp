@@ -33,8 +33,43 @@ int main() {
         return 1;
     }
 
+    // Choix de la vitesse
+    cout << "\nChoisissez la vitesse de simulation :" << endl;
+    cout << "1. Rapide (100ms)" << endl;
+    cout << "2. Moyen (500ms)" << endl;
+    cout << "3. Lent (1000ms)" << endl;
+    cout << "4. Personnalise" << endl;
+    cout << "Votre choix : ";
+
+    int speedChoice;
+    int delayMs = 500; // Default
+
+    if (cin >> speedChoice) {
+        switch (speedChoice) {
+            case 1: delayMs = 100; break;
+            case 2: delayMs = 500; break;
+            case 3: delayMs = 1000; break;
+            case 4:
+                cout << "Entrez le delai en millisecondes : ";
+                if (!(cin >> delayMs) || delayMs < 0) {
+                    cout << "Delai invalide, utilisation de 500ms par defaut." << endl;
+                    delayMs = 500;
+                }
+                break;
+            default:
+                cout << "Choix invalide, utilisation de la vitesse moyenne (500ms)." << endl;
+                delayMs = 500;
+                break;
+        }
+    } else {
+        cout << "Entree invalide, utilisation de la vitesse moyenne (500ms)." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
+
     try {
         GameOfLife game(configPath, move(view));
+        game.setDelay(delayMs);
         game.runSimulation();
     } catch (const exception& e) {
         cerr << "Erreur fatale : " << e.what() << endl;

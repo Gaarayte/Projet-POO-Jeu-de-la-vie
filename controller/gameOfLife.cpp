@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdexcept>
-
+#include <thread>
+#include <chrono>
 
 #include "gameOfLife.h"
 #include "state/aliveState.h" 
@@ -84,6 +85,10 @@ void GameOfLife::runSimulation() {
         _grid->evolve(*_ruleStrategy); 
 
         _grid->applyNextState();
+
+        if (_delayMs > 0) {
+            this_thread::sleep_for(chrono::milliseconds(_delayMs));
+        }
 
         if (!_view->handleEvents()) {
             cout << "Simulation arretee par l'utilisateur a l'iteration " << _currentIteration + 1 << "." << endl;
