@@ -6,16 +6,16 @@
 AliveState::AliveState() : CellState("Alive", true) {}
 
 AliveState* AliveState::getInstance() {
-    // La première fois qu'on appelle cette fonction, l'objet est créé.
-    // L'objet sera automatiquement détruit à la fin du programme par le C++.
+    //The first time this function is called, the instance is created.
+    //The object will be automatically destroyed at the end of the program by C++.
     static AliveState instance; 
     return &instance;
 }
 
 CellState* AliveState::handleEvolution(int liveNeighbors, RuleStrategy* rule) {
-    if (rule->checkSurvival(liveNeighbors)) {
+    if (rule->checkSurvival(liveNeighbors)) { //Remains alive
         return AliveState::getInstance();
-    } else {
+    } else { //Dies
         return DeadState::getInstance();
     }
 }

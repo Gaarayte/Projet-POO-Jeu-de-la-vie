@@ -8,19 +8,17 @@
 
 using namespace std;
 
-class CellState;
-class Rules;
+class CellState; //Forward declaration
+class Rules; //Forward declaration
 
 class Grid
 {
 private:
-    vector<int> _stateNMin2; // Stockage du N-2, utilisation vecteur 1D
     int width;
     int height;
     vector<vector<shared_ptr<Cell>>> cells;
     vector<vector<shared_ptr<CellState>>> nextStateCells;
-    bool _isChanged;
-    vector<int> getCurrentGridStateVector() const; //Méthode de convertion grille 2D -> 1D
+    vector<int> getCurrentGridStateVector() const;
 
 public:
     Grid(int w, int h);
@@ -30,7 +28,6 @@ public:
     bool evolve(const RuleStrategy& rule);
     bool isStable() const;
     void applyNextState();
-    void updateStateNMin2();
     void setCell(int x, int y, shared_ptr<Cell> cell);
 
     int getWidth() const { return width; }

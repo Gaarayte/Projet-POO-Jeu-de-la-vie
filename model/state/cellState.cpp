@@ -8,5 +8,5 @@ using namespace std;
 CellState::CellState(const string& name, bool isAlive): name(name), alive(isAlive){}
 
 string CellState::getName() const {
-    return name;
+    return name;//Return the name of the state
 }

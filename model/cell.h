@@ -16,9 +16,6 @@ class Cell {
         Cell(int x, int y, shared_ptr<CellState> initialState);
         ~Cell() = default;
 
-        // Method
-        void invertState();
-
         // Accessors 
         shared_ptr<CellState> getState() const;
         CellState* evolve(int liveNeighbors, RuleStrategy* rule);
