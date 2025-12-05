@@ -5,9 +5,6 @@
 #include <string>
 
 class ConsoleView : public IView {
-private:
-    std::string outputDirectory;
-
 public:
     ConsoleView(const std::string& inputFilePath);
     ~ConsoleView() override;

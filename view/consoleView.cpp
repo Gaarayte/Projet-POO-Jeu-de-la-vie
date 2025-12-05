@@ -12,15 +12,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 ConsoleView::ConsoleView(const string& inputFilePath) {
-    // Create output directory name based on input file
-    fs::path path(inputFilePath);
-    string filename = path.stem().string();
-    outputDirectory = filename + "_out";
-    
-    // Create directory if it doesn't exist
-    if (!fs::exists(outputDirectory)) {
-        fs::create_directory(outputDirectory);
-    }
+    (void)inputFilePath; // Unused parameter
 }
 
 ConsoleView::~ConsoleView() {
@@ -49,26 +41,6 @@ void ConsoleView::renderGrid(const Grid& grid, int iteration) {
             }
         }
         cout << endl;
-    }
-
-    // 2. Write to file
-    string fileName = outputDirectory + "/iteration_" + to_string(iteration) + ".txt";
-    ofstream outFile(fileName);
-    if (outFile.is_open()) {
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
-                auto cell = grid.getCell(x, y);
-                if (cell && cell->getState()->isAlive()) {
-                    outFile << "1 ";
-                } else {
-                    outFile << "0 ";
-                }
-            }
-            outFile << endl;
-        }
-        outFile.close();
-    } else {
-        cerr << "Error: Could not write to file " << fileName << endl;
     }
 }
 
