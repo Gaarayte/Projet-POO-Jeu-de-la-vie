@@ -2,6 +2,7 @@
 #include <sstream>
 #include <algorithm>
 #include <stdexcept>
+#include <memory>
 
 #include "unitTests.h"
 #include "inputParser.h"
@@ -89,13 +90,13 @@ bool UnitTests::testNeighborCalculation() const {
     cout << " > Exécution du test de calcul des voisins..." << endl;
     
     Grid grid(5, 5);
-    AliveState aliveState;
+    shared_ptr<CellState> aliveState = shared_ptr<CellState>(AliveState::getInstance(), [](CellState*){});
 
-    grid.getCell(2, 2)->setState(&aliveState); 
-    grid.getCell(1, 2)->setState(&aliveState); 
-    grid.getCell(3, 2)->setState(&aliveState); 
-    grid.getCell(2, 1)->setState(&aliveState); 
-    grid.getCell(2, 3)->setState(&aliveState); 
+    grid.getCell(2, 2)->setState(aliveState); 
+    grid.getCell(1, 2)->setState(aliveState); 
+    grid.getCell(3, 2)->setState(aliveState); 
+    grid.getCell(2, 1)->setState(aliveState); 
+    grid.getCell(2, 3)->setState(aliveState); 
     int neighbors_center = grid.calculateLiveNeighbors(2, 2);
     if (neighbors_center != 4) {
         cerr << "   ÉCHEC: Centre (2,2). Attendu: 4, Obtenu: " << neighbors_center << endl;
@@ -134,11 +135,11 @@ void UnitTests::runAllTests() const {
     }
     
     Grid grid_block(4, 4);
-    AliveState aliveStateBlock;
-    grid_block.getCell(1, 1)->setState(&aliveStateBlock);
-    grid_block.getCell(1, 2)->setState(&aliveStateBlock);
-    grid_block.getCell(2, 1)->setState(&aliveStateBlock);
-    grid_block.getCell(2, 2)->setState(&aliveStateBlock);
+    shared_ptr<CellState> aliveStateBlock = shared_ptr<CellState>(AliveState::getInstance(), [](CellState*){});
+    grid_block.getCell(1, 1)->setState(aliveStateBlock);
+    grid_block.getCell(1, 2)->setState(aliveStateBlock);
+    grid_block.getCell(2, 1)->setState(aliveStateBlock);
+    grid_block.getCell(2, 2)->setState(aliveStateBlock);
     
     TestRule conwayRule("Conway");
 

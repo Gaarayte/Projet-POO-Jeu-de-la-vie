@@ -72,9 +72,10 @@ void GameOfLife::runSimulation() {
     }
 
     cout << "Demarrage de la simulation (" << _grid->getWidth() << "x" << _grid->getHeight() 
-              << ", max " << _maxIterations << " iterations)." << endl;
+              << ", boucle infinie)." << endl;
 
-    for (_currentIteration = 0; _currentIteration < _maxIterations; ++_currentIteration) {
+    _currentIteration = 0;
+    while (true) {
 
         _grid->updateStateNMin2(); 
 

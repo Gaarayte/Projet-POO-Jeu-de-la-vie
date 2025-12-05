@@ -11,11 +11,6 @@
 
 using namespace std;
 
-shared_ptr<CellState> getDeadState() {
-    static auto deadState = make_shared<DeadState>(); 
-    return deadState;
-}
-
 Grid::Grid(int w, int h) : 
     width(w), 
     height(h),
@@ -27,10 +22,12 @@ Grid::Grid(int w, int h) :
         throw invalid_argument("Grid dimensions must be positive.");
     }
 
+    shared_ptr<CellState> deadState = shared_ptr<CellState>(DeadState::getInstance(), [](CellState*){});
+
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            cells[y][x] = make_shared<Cell>(x, y, getDeadState()); 
-            nextStateCells[y][x] = getDeadState();
+            cells[y][x] = make_shared<Cell>(x, y, deadState); 
+            nextStateCells[y][x] = deadState;
         }
     }
 }
