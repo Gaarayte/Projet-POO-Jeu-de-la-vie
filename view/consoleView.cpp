@@ -48,7 +48,7 @@ void ConsoleView::renderGrid(const Grid& grid, int iteration) {
 
 void ConsoleView::updateDisplay() {
     cout << flush;
-    this_thread::sleep_for(chrono::milliseconds(200));
+    this_thread::sleep_for(chrono::milliseconds(500));
 }
 
 bool ConsoleView::handleEvents() {

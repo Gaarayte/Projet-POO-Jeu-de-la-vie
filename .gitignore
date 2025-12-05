@@ -1,3 +1,5 @@
 /.vscode
 *.o
 *.exe
+simulation_log.txt
+start

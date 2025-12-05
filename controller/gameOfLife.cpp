@@ -77,17 +77,9 @@ void GameOfLife::runSimulation() {
     _currentIteration = 0;
     while (true) {
 
-        _grid->updateStateNMin2(); 
-
         _view->renderGrid(*_grid, _currentIteration);
         _view->updateDisplay(); 
         _logger->logState(_grid.get(), _currentIteration, _grid->getWidth(), _grid->getHeight());
-
-        if (_currentIteration >= 2 && _grid->isStable()) {
-            cout << "Simulation stable ou cyclique (P=2) detectee. Arret a l'iteration " 
-                      << _currentIteration << "." << endl;
-            break;
-        }
 
         _grid->evolve(*_ruleStrategy); 
 
@@ -97,6 +89,7 @@ void GameOfLife::runSimulation() {
             cout << "Simulation arretee par l'utilisateur a l'iteration " << _currentIteration + 1 << "." << endl;
             break;
         }
+        _currentIteration++;
     }
 
     _view->renderGrid(*_grid, _currentIteration);
