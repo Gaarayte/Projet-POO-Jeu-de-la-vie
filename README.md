@@ -124,4 +124,4 @@ Le projet inclut un module de tests unitaires (défini dans `unitTests.cpp`) qui
   * Le parsing correct des fichiers d'entrée (`InputParser`).
   * La validité de l'évolution (test de motifs stables comme le Bloc).
 
-Pour exécuter les tests,
+Pour exécuter les tests, écrire `./start --debug` ou `./start.exe --debug`
