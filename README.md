@@ -1,5 +1,7 @@
 # 🚀 Projet : Jeu de la Vie (Game of Life)
 
+https://github.com/Gaarayte/Projet-POO-Jeu-de-la-vie.git
+
 ## 1\. Aperçu du Projet
 
 Ce projet implémente le célèbre automate cellulaire de Conway, le **Jeu de la Vie**, en C++ moderne.
