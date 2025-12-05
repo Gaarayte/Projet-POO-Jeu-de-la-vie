@@ -1,6 +1,5 @@
-CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra -I. -Imodel -Imodel/rules -Imodel/state -Iview -Icontroller
-LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system   # <-- retiré -lsfml-main
 
 # Source files (automatic detection)
 SRC = $(wildcard *.cpp) \
@@ -21,11 +20,11 @@ all: $(EXEC)
 
 # Link object files to create executable
 $(EXEC): $(OBJ)
-	$(CXX) $(OBJ) -o $(EXEC) $(LDFLAGS)
+	g++ $(OBJ) -o $(EXEC) $(LDFLAGS)
 
 # Compile source files to object files
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	g++ $(CXXFLAGS) -c $< -o $@
 
 # Clean up build files
 clean:

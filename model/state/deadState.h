@@ -3,12 +3,10 @@
 
 
 class DeadState : public CellState {
-    private:
-        DeadState();
-
     public:
-        CellState* handleEvolution(Cell* currentCell, int liveNeighbors, Rules* rule) override;
+        CellState* handleEvolution(int liveNeighbors, RuleStrategy* rule) override;
         
         static DeadState* getInstance();
+        DeadState();
 
 };

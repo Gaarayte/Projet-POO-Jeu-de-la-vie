@@ -1,13 +1,14 @@
-#include "cell.h"
 #pragma once
+
 #include <string>
+#include <memory>
 
 using namespace std;
 
 class Cell;
-class Rules;
+class RuleStrategy;
 
-class CellState : public Cell {
+class CellState {
     protected:
         string name;
         bool alive;
@@ -16,9 +17,9 @@ class CellState : public Cell {
         CellState(const string& name, bool isAlive);
 
         virtual ~CellState() = default;
-        virtual CellState* handleEvolution(Cell* currentCell, int liveNeighbors, Rules* rule) = 0;
+        virtual CellState* handleEvolution(int liveNeighbors, RuleStrategy* rule) = 0;
 
-        bool isAlive() const {};
+        bool isAlive() const { return alive; }
 
         string getName() const;
 };

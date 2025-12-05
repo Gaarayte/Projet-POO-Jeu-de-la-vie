@@ -1,54 +1,89 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <cstring>
+#include "controller/gameOfLife.h"
+#include "controller/unitTests.h"
+#include "view/consoleView.h"
+#include "view/SFMLView.h"
 
-const int cellSize = 10;
-const int gridWidth = 80;
-const int gridHeight = 80;
+using namespace std;
 
-std::vector<std::vector<int>> grid(gridWidth, std::vector<int>(gridHeight));
-
-void initializeGrid() {
-    std::srand(std::time(0));
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-            grid[x][y] = std::rand() % 2;  // Randomly initialize cells as alive or dead
-        }
+int main(int argc, char* argv[]) {
+    // Check for debug mode
+    if (argc > 1 && strcmp(argv[1], "--debug") == 0) {
+        cout << "Mode DEBUG active : Lancement des tests unitaires..." << endl;
+        UnitTests tests;
+        tests.runAllTests();
+        return 0;
     }
-}
 
-void renderGrid(sf::RenderWindow &window) {
-    int x, y;
-    
-    window.clear();
-    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
-    for (x = 0; x < gridWidth; ++x) {
-        for (y = 0; y < gridHeight; ++y) {
-            if (grid[x][y] == 1) {
-                cell.setPosition(x * cellSize, y * cellSize);
-                window.draw(cell);
-            }
-        }
+    string configPath = "config.txt";
+
+    cout << "Bienvenue dans le Jeu de la Vie !" << endl;
+    cout << "Choisissez le mode d'affichage :" << endl;
+    cout << "1. Console" << endl;
+    cout << "2. Graphique (SFML)" << endl;
+    cout << "Votre choix : ";
+
+    int choice;
+    if (!(cin >> choice)) {
+        cerr << "Entree invalide." << endl;
+        return 1;
     }
-    window.display();
-}
 
-int main() {
-    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
-    
-    initializeGrid();
+    unique_ptr<IView> view;
 
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
+    if (choice == 1) {
+        view = make_unique<ConsoleView>(configPath);
+    } else if (choice == 2) {
+        view = make_unique<SFMLView>();
+    } else {
+        cerr << "Choix invalide. Veuillez relancer le programme et choisir 1 ou 2." << endl;
+        return 1;
+    }
+
+    // Choix de la vitesse
+    cout << "\nChoisissez la vitesse de simulation :" << endl;
+    cout << "1. Rapide (100ms)" << endl;
+    cout << "2. Moyen (500ms)" << endl;
+    cout << "3. Lent (1000ms)" << endl;
+    cout << "4. Personnalise" << endl;
+    cout << "Votre choix : ";
+
+    int speedChoice;
+    int delayMs = 500; // Default
+
+    if (cin >> speedChoice) {
+        switch (speedChoice) {
+            case 1: delayMs = 100; break;
+            case 2: delayMs = 500; break;
+            case 3: delayMs = 1000; break;
+            case 4:
+                cout << "Entrez le delai en millisecondes : ";
+                if (!(cin >> delayMs) || delayMs < 0) {
+                    cout << "Delai invalide, utilisation de 500ms par defaut." << endl;
+                    delayMs = 500;
+                }
+                break;
+            default:
+                cout << "Choix invalide, utilisation de la vitesse moyenne (500ms)." << endl;
+                delayMs = 500;
+                break;
         }
+    } else {
+        cout << "Entree invalide, utilisation de la vitesse moyenne (500ms)." << endl;
+        cin.clear();
+        cin.ignore(10000, '\n');
+    }
 
-        renderGrid(window);
-
-        sf::sleep(sf::milliseconds(100));
+    try {
+        GameOfLife game(configPath, move(view));
+        game.setDelay(delayMs);
+        game.runSimulation();
+    } catch (const exception& e) {
+        cerr << "Erreur fatale : " << e.what() << endl;
+        return 1;
     }
 
     return 0;

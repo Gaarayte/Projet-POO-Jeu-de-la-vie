@@ -1,0 +1,113 @@
+@startuml GameOfLife_SequenceDiagram
+title Diagramme de Séquence : Simulation du Jeu de la Vie
+
+actor User
+participant Main
+participant "GameOfLife" as Controller
+participant "InputParser" as Parser
+participant "Grid" as Model
+participant "RuleStrategy" as Rules
+participant "IView" as View
+participant "GameLogger" as Logger
+
+User -> Main : Lancer le programme
+activate Main
+
+create Controller
+Main -> Controller : new GameOfLife(configPath, view)
+activate Controller
+
+create Parser
+Controller -> Parser : new InputParser()
+Controller -> Parser : parseEvolution(configPath)
+activate Parser
+Parser --> Controller : success
+deactivate Parser
+
+Controller -> Controller : initialize(parser)
+activate Controller
+
+create Logger
+Controller -> Logger : new GameLogger()
+
+create Model
+Controller -> Model : new Grid(width, height)
+
+create Rules
+Controller -> Rules : new Rules(ruleName)
+
+Controller -> Parser : getInitialGridData()
+activate Parser
+Parser --> Controller : initialData
+deactivate Parser
+
+loop Pour chaque cellule
+    Controller -> Model : setCell(x, y, cell)
+end
+
+Controller -> View : initialize(width, height)
+activate View
+View --> Controller
+deactivate View
+
+deactivate Controller
+deactivate Controller
+
+Main -> Controller : runSimulation()
+activate Controller
+
+loop while (true)
+    Controller -> View : renderGrid(grid, iteration)
+    activate View
+    View --> Controller
+    deactivate View
+
+    Controller -> View : updateDisplay()
+    activate View
+    View --> Controller
+    deactivate View
+
+    Controller -> Logger : logState(grid, iteration)
+    activate Logger
+    Logger --> Controller
+    deactivate Logger
+
+    Controller -> Model : evolve(ruleStrategy)
+    activate Model
+    loop Pour chaque cellule (x, y)
+        Model -> Model : calculateLiveNeighbors(x, y)
+        Model -> Rules : handleEvolution(currentState, neighbors)
+        activate Rules
+        Rules --> Model : nextState
+        deactivate Rules
+    end
+    Model --> Controller
+    deactivate Model
+
+    Controller -> Model : applyNextState()
+    activate Model
+    Model --> Controller
+    deactivate Model
+
+    Controller -> Controller : sleep(delayMs)
+
+    Controller -> View : handleEvents()
+    activate View
+    View --> Controller : continue
+    deactivate View
+
+    alt !continue
+        Controller -> Controller : break
+    end
+    
+    Controller -> Controller : iteration++
+end
+
+Controller -> View : renderGrid(grid, iteration)
+deactivate Controller
+
+Main -> Controller : Destructor
+destroy Controller
+
+deactivate Main
+@enduml
