@@ -5,6 +5,10 @@
 #include <string>
 
 class ConsoleView : public IView {
+private:
+int _gridWidth;
+int _gridHeight;
+
 public:
     ConsoleView(const std::string& inputFilePath);
     ~ConsoleView() override;

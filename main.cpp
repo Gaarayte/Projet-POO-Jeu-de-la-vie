@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 #include "controller/gameOfLife.h"
-#include "view/ConsoleView.h"
+#include "view/consoleView.h"
 #include "view/SFMLView.h"
 
 using namespace std;

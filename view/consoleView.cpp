@@ -21,6 +21,8 @@ ConsoleView::~ConsoleView() {
 void ConsoleView::initialize(int width, int height) {
     // cout << "Initialisation de la vue Console (" << width << "x" << height << ")" << endl;
     // cout << "Les resultats seront sauvegardes dans : " << outputDirectory << endl;
+    _gridWidth = width;
+    _gridHeight = height;
 }
 
 void ConsoleView::renderGrid(const Grid& grid, int iteration) {
