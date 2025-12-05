@@ -14,7 +14,9 @@ private:
     ofstream _logFile;
     
 public:
+
     GameLogger(const string& fileName);
+
     ~GameLogger();
 
 

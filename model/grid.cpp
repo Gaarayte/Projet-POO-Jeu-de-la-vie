@@ -61,7 +61,7 @@ bool Grid::evolve(const RuleStrategy& rule) {
             int aliveNeighbors = calculateLiveNeighbors(x, y);
             
             shared_ptr<CellState> currentState = cells[y][x]->getState();
-            shared_ptr<CellState> nextState = rule.handleEvolution(currentState, aliveNeighbors); //completer rulestrategy..
+            shared_ptr<CellState> nextState = rule.handleEvolution(currentState, aliveNeighbors);
 
             nextStateCells[y][x] = nextState;
         }

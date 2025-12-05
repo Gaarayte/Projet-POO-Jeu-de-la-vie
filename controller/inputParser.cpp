@@ -8,6 +8,7 @@ using namespace std;
 
 InputParser::InputParser() : _ruleName("Conway"), _gridWidth(0), _gridHeight(0) {}
 
+// Reads the configuration file to extract grid dimensions and initial grid
 bool InputParser::readFile(const string& fileName) {
     ifstream file(fileName);
     if (!file.is_open()) {
@@ -17,11 +18,11 @@ bool InputParser::readFile(const string& fileName) {
 
     string line;
     
-    // Lecture de la ligne de paramètres
+    // Read the parameter line (width and height)
     if (getline(file, line)) {
         stringstream ss(line);
         
-        // La première ligne est supposée contenir : Width Height
+        // first line is expected to contain: width height
         if (ss >> _gridWidth >> _gridHeight) {
             if (_gridWidth <= 0 || _gridHeight <= 0) {
                 cerr << "Erreur: Parametres de grille invalides." << endl;
@@ -40,7 +41,7 @@ bool InputParser::readFile(const string& fileName) {
 
     _initialGridData.clear();
     
-    // Lecture des données de la grille
+    // Read the grid data
     for (int y = 0; y < _gridHeight; ++y) {
         if (!getline(file, line)) {
             cerr << "Erreur: Nombre de lignes de grille insuffisant (attendu " << _gridHeight << ")." << endl;
@@ -51,6 +52,7 @@ bool InputParser::readFile(const string& fileName) {
         vector<int> row;
         int state;
         
+        // Parse each cell state in the row
         for (int x = 0; x < _gridWidth; ++x) {
             if (ss_grid >> state) {
                 row.push_back(state);
