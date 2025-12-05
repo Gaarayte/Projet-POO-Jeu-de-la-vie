@@ -10,7 +10,7 @@ class Cell {
         bool alive;
         int x;
         int y;
-        CellState* currentState;
+        shared_ptr<CellState> currentState;
     
     public :
         Cell(int x, int y, shared_ptr<CellState> initialState);
@@ -20,13 +20,13 @@ class Cell {
         void invertState();
 
         // Accessors 
-        CellState* getState() const;
+        shared_ptr<CellState> getState() const;
         CellState* evolve(int liveNeighbors, RuleStrategy* rule);
         int getX() const;
         int getY() const;
 
         // Setters
-        void setState(CellState* newState);
+        void setState(shared_ptr<CellState> newState);
 
    
 };

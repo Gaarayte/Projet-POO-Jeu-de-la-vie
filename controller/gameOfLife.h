@@ -18,7 +18,6 @@ private:
     unique_ptr<GameLogger> _logger;
     unique_ptr<IView> _view; 
     
-    int _maxIterations;
     int _currentIteration;
 
     bool initialize(const InputParser& parser);

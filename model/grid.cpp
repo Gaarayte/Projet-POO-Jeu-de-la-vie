@@ -64,7 +64,7 @@ bool Grid::evolve(const RuleStrategy& rule) {
         for (int x = 0; x < width; ++x) {
             int aliveNeighbors = calculateLiveNeighbors(x, y);
             
-            shared_ptr<CellState> currentState = shared_ptr<CellState>(cells[y][x]->getState());
+            shared_ptr<CellState> currentState = cells[y][x]->getState();
             shared_ptr<CellState> nextState = rule.handleEvolution(currentState, aliveNeighbors); //completer rulestrategy..
 
             nextStateCells[y][x] = nextState;
@@ -84,7 +84,7 @@ _isChanged = false; // Réinitialise le flag au début de l'application
 
             
             if (cell->getState()->isAlive() != nextState->isAlive()) { 
-                cell->setState(nextState.get()); 
+                cell->setState(nextState); 
                 _isChanged = true; // Marque la grille comme modifiée
             }
         }
@@ -127,7 +127,7 @@ void Grid::setCell(int x, int y, shared_ptr<Cell> cell) {
         cells[y][x] = cell;
     } 
     else {
-        cerr << "Avertissement: Tentative de définir une cellule en dehors des limites de la grille (" << x << ", " << y << ")." << endl;
+        cerr << "Avertissement: Tentative de definir une cellule en dehors des limites de la grille (" << x << ", " << y << ")." << endl;
     }
 }
 

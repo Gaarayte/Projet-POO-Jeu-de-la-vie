@@ -6,7 +6,7 @@
 
 using namespace std;
 
-InputParser::InputParser() : _ruleName(""), _maxIterations(0), _gridWidth(0), _gridHeight(0) {}
+InputParser::InputParser() : _ruleName("Conway"), _gridWidth(0), _gridHeight(0) {}
 
 bool InputParser::readFile(const string& fileName) {
     ifstream file(fileName);
@@ -20,17 +20,16 @@ bool InputParser::readFile(const string& fileName) {
     // Lecture de la ligne de paramètres
     if (getline(file, line)) {
         stringstream ss(line);
-        string param;
         
-        // La première ligne est supposée contenir : RuleName MaxIterations Width Height
-        if (ss >> _ruleName >> _maxIterations >> _gridWidth >> _gridHeight) {
-            if (_gridWidth <= 0 || _gridHeight <= 0 || _maxIterations < 0) {
-                cerr << "Erreur: Paramètres de grille invalides." << endl;
+        // La première ligne est supposée contenir : Width Height
+        if (ss >> _gridWidth >> _gridHeight) {
+            if (_gridWidth <= 0 || _gridHeight <= 0) {
+                cerr << "Erreur: Parametres de grille invalides." << endl;
                 return false;
             }
         } 
         else {
-            cerr << "Erreur: Format de la ligne de paramètres invalide." << endl;
+            cerr << "Erreur: Format de la ligne de parametres invalide." << endl;
             return false;
         }
     } 

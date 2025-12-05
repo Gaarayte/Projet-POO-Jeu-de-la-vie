@@ -3,21 +3,19 @@
 #include "deadState.h"
 #include "ruleStrategy.h"
 
-Cell::Cell(int x, int y, shared_ptr<CellState> initialState) : x(x), y(y), currentState(nullptr) {
-    if (initialState) {
-        currentState = initialState.get();
-    } else {
-        currentState = DeadState::getInstance();
+Cell::Cell(int x, int y, shared_ptr<CellState> initialState) : x(x), y(y), currentState(initialState) {
+    if (!currentState) {
+        currentState = shared_ptr<CellState>(DeadState::getInstance(), [](CellState*){});
     }
 }
 
-void Cell::setState(CellState* newState) {
+void Cell::setState(shared_ptr<CellState> newState) {
     if(newState) {
         currentState = newState;
     }
 }
 
-CellState* Cell::getState() const {
+shared_ptr<CellState> Cell::getState() const {
     return currentState;
 }
 

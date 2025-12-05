@@ -1,54 +1,44 @@
-#include <SFML/Graphics.hpp>
-#include <vector>
-#include <ctime>
-#include <cstdlib>
+#include <iostream>
+#include <memory>
+#include <string>
+#include "controller/gameOfLife.h"
+#include "view/ConsoleView.h"
+#include "view/SFMLView.h"
 
-const int cellSize = 10;
-const int gridWidth = 80;
-const int gridHeight = 80;
-
-std::vector<std::vector<int>> grid(gridWidth, std::vector<int>(gridHeight));
-
-void initializeGrid() {
-    std::srand(std::time(0));
-    for (int x = 0; x < gridWidth; ++x) {
-        for (int y = 0; y < gridHeight; ++y) {
-            grid[x][y] = std::rand() % 2;  // Randomly initialize cells as alive or dead
-        }
-    }
-}
-
-void renderGrid(sf::RenderWindow &window) {
-    int x, y;
-
-    window.clear();
-    sf::RectangleShape cell(sf::Vector2f(cellSize - 1.0f, cellSize - 1.0f));
-    for (x = 0; x < gridWidth; ++x) {
-        for (y = 0; y < gridHeight; ++y) {
-            if (grid[x][y] == 1) {
-                cell.setPosition(x * cellSize, y * cellSize);
-                window.draw(cell);
-            }
-        }
-    }
-    window.display();
-}
+using namespace std;
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(gridWidth * cellSize, gridHeight * cellSize), "Game of Life");
+    string configPath = "config.txt";
 
-    initializeGrid();
+    cout << "Bienvenue dans le Jeu de la Vie !" << endl;
+    cout << "Choisissez le mode d'affichage :" << endl;
+    cout << "1. Console" << endl;
+    cout << "2. Graphique (SFML)" << endl;
+    cout << "Votre choix : ";
 
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+    int choice;
+    if (!(cin >> choice)) {
+        cerr << "Entree invalide." << endl;
+        return 1;
+    }
 
-        renderGrid(window);
+    unique_ptr<IView> view;
 
-        sf::sleep(sf::milliseconds(100));
+    if (choice == 1) {
+        view = make_unique<ConsoleView>(configPath);
+    } else if (choice == 2) {
+        view = make_unique<SFMLView>();
+    } else {
+        cerr << "Choix invalide. Veuillez relancer le programme et choisir 1 ou 2." << endl;
+        return 1;
+    }
+
+    try {
+        GameOfLife game(configPath, move(view));
+        game.runSimulation();
+    } catch (const exception& e) {
+        cerr << "Erreur fatale : " << e.what() << endl;
+        return 1;
     }
 
     return 0;

@@ -11,7 +11,6 @@ class RuleStrategy;
 class InputParser {
 private:
     string _ruleName;
-    int _maxIterations;
     int _gridWidth;
     int _gridHeight;
     vector<vector<int>> _initialGridData; 
@@ -25,7 +24,6 @@ public:
 
     int getGridWidth() const { return _gridWidth; }
     int getGridHeight() const { return _gridHeight; }
-    int getMaxIterations() const { return _maxIterations; }
     string getRuleName() const { return _ruleName; }
     
     const vector<vector<int>>& getInitialGridData() const { return _initialGridData; }
