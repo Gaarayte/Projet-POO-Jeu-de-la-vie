@@ -18,11 +18,11 @@ bool InputParser::readFile(const string& fileName) {
 
     string line;
     
-    // Read the parameter line (width and height)
+    // Read the parameter line (Width Height)
     if (getline(file, line)) {
         stringstream ss(line);
         
-        // first line is expected to contain: width height
+        // The first line is expected to contain: Width Height
         if (ss >> _gridWidth >> _gridHeight) {
             if (_gridWidth <= 0 || _gridHeight <= 0) {
                 cerr << "Erreur: Parametres de grille invalides." << endl;
@@ -35,7 +35,7 @@ bool InputParser::readFile(const string& fileName) {
         }
     } 
     else {
-        cerr << "Erreur: Fichier vide ou illisible." << endl;
+        cerr << "Erreur: Fichier vide ou illisible (" << fileName << ")." << endl;
         return false;
     }
 

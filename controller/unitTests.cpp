@@ -32,7 +32,7 @@ bool UnitTests::testEvolution(
     int steps, 
     int expectedAliveCount
 ) const {
-    cout << " > Exécution du test d'évolution (" << rule.name << ")..." << endl;
+    cout << " > Execution du test d'evolution (" << rule.name << ")..." << endl;
     
     Grid testGrid = initialGrid; 
 
@@ -51,43 +51,43 @@ bool UnitTests::testEvolution(
     }
 
     if (actualAliveCount != expectedAliveCount) {
-        cerr << "   ÉCHEC: Nombre de vivantes après " << steps << " étapes. Attendu: " << expectedAliveCount << ", Obtenu: " << actualAliveCount << endl;
+        cerr << "   Echec : Nombre de vivantes apres " << steps << " etapes. Attendu: " << expectedAliveCount << ", Obtenu: " << actualAliveCount << endl;
         return false;
     }
 
-    cout << " > Test d'évolution RÉUSSI." << endl;
+    cout << " > Test d'evolution REUSSI." << endl;
     return true;
 }
 
 bool UnitTests::testInputParser(const string& filePath) const {
-    cout << " > Exécution du test de parsing d'entrée (" << filePath << ")..." << endl;
+    cout << " > Execution du test de parsing d'entree (" << filePath << ")..." << endl;
     InputParser parser;
     
     if (parser.parseEvolution("non_existent_file.txt")) {
-        cerr << "   ÉCHEC: Le parser a réussi à ouvrir un fichier inexistant." << endl;
+        cerr << "   Echec : Le parser a reussi a ouvrir un fichier inexistant." << endl;
         return false;
     }
 
     if (!parser.parseEvolution(filePath)) {
-        cerr << "   ÉCHEC: Le parsing du fichier valide a échoué." << endl;
+        cerr << "   Echec : Le parsing du fichier valide a echoue." << endl;
         return false;
     }
     
     if (parser.getGridWidth() <= 0 || parser.getGridHeight() <= 0) {
-        cerr << "   ÉCHEC: Dimensions de grille invalides lues." << endl;
+        cerr << "   Echec : Dimensions de grille invalides lues." << endl;
         return false;
     }
     if (parser.getInitialGridData().empty()) {
-        cerr << "   ÉCHEC: Données de grille initiales non lues." << endl;
+        cerr << "   Echec : Donnees de grille initiales non lues." << endl;
         return false;
     }
 
-    cout << " > Test de parsing RÉUSSI." << endl;
+    cout << " > Test de parsing REUSSI." << endl;
     return true;
 }
 
 bool UnitTests::testNeighborCalculation() const {
-    cout << " > Exécution du test de calcul des voisins..." << endl;
+    cout << " > Execution du test de calcul des voisins..." << endl;
     
     Grid grid(5, 5);
     shared_ptr<CellState> aliveState = shared_ptr<CellState>(AliveState::getInstance(), [](CellState*){});
@@ -99,29 +99,29 @@ bool UnitTests::testNeighborCalculation() const {
     grid.getCell(2, 3)->setState(aliveState); 
     int neighbors_center = grid.calculateLiveNeighbors(2, 2);
     if (neighbors_center != 4) {
-        cerr << "   ÉCHEC: Centre (2,2). Attendu: 4, Obtenu: " << neighbors_center << endl;
+        cerr << "   Echec : Centre (2,2). Attendu: 4, Obtenu: " << neighbors_center << endl;
         return false;
     }
 
     int neighbors_corner = grid.calculateLiveNeighbors(0, 0);
     if (neighbors_corner != 0) { 
-        cerr << "   ÉCHEC: Coin (0,0). Attendu: 0, Obtenu: " << neighbors_corner << endl;
+        cerr << "   Echec : Coin (0,0). Attendu: 0, Obtenu: " << neighbors_corner << endl;
         return false;
     }
     
     int neighbors_edge = grid.calculateLiveNeighbors(0, 2);
     if (neighbors_edge != 1) { 
-        cerr << "   ÉCHEC: Bord (0,2). Attendu: 1, Obtenu: " << neighbors_edge << endl;
+        cerr << "   Echec : Bord (0,2). Attendu: 1, Obtenu: " << neighbors_edge << endl;
         return false;
     }
 
-    cout << " > Test de calcul des voisins RÉUSSI." << endl;
+    cout << " > Test de calcul des voisins REUSSI." << endl;
     return true;
 }
 
 void UnitTests::runAllTests() const {
     cout << "\n========================================" << endl;
-    cout << " DÉMARRAGE DES TESTS UNITAIRES" << endl;
+    cout << " DEMARRAGE DES TESTS UNITAIRES" << endl;
     cout << "========================================" << endl;
     
     bool allPassed = true;
@@ -145,10 +145,10 @@ void UnitTests::runAllTests() const {
 
    cout << "\n========================================" << endl;
     if (allPassed) {
-        cout << " TOUS LES TESTS UNITAIRES ONT RÉUSSI!" << endl;
+        cout << " TOUS LES TESTS UNITAIRES ONT REUSSI !" << endl;
     } 
     else {
-        cout << " DES TESTS UNITAIRES ONT ÉCHOUÉ!" << endl;
+        cout << " DES TESTS UNITAIRES ONT ECHOUE !" << endl;
     }
     cout << "========================================" << endl;
 }

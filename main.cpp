@@ -1,13 +1,23 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <cstring>
 #include "controller/gameOfLife.h"
+#include "controller/unitTests.h"
 #include "view/consoleView.h"
 #include "view/SFMLView.h"
 
 using namespace std;
 
-int main() {
+int main(int argc, char* argv[]) {
+    // Check for debug mode
+    if (argc > 1 && strcmp(argv[1], "--debug") == 0) {
+        cout << "Mode DEBUG active : Lancement des tests unitaires..." << endl;
+        UnitTests tests;
+        tests.runAllTests();
+        return 0;
+    }
+
     string configPath = "config.txt";
 
     cout << "Bienvenue dans le Jeu de la Vie !" << endl;
