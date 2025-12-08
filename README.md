@@ -56,7 +56,7 @@ make
 
 ### Exécution
 
-L'application attend en argument le chemin d'accès à un fichier de configuration.
+L'application charge automatiquement la configuration depuis le fichier `config.txt`.
 
 ```bash
 ./start
