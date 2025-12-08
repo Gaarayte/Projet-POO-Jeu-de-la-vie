@@ -28,6 +28,7 @@ $(EXEC): $(OBJ)
 
 # Clean up build files
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -f $(EXEC)
+	rm -f *.o */*.o */*/*.o
 
 .PHONY: all clean
