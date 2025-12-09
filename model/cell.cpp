@@ -23,11 +23,4 @@ CellState* Cell::evolve(int liveNeighbors, RuleStrategy* rule) {
     return currentState->handleEvolution(liveNeighbors, rule);
 }
 
-int Cell::getX() const {
-    return x;
-}
-
-int Cell::getY() const {
-    return y;
-}
 

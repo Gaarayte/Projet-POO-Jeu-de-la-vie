@@ -19,8 +19,6 @@ class Cell {
         // Accessors 
         shared_ptr<CellState> getState() const;
         CellState* evolve(int liveNeighbors, RuleStrategy* rule);
-        int getX() const;
-        int getY() const;
 
         // Setters
         void setState(shared_ptr<CellState> newState);
